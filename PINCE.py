@@ -3041,6 +3041,9 @@ class MemoryViewWindowForm(QMainWindow, MemoryViewWindow):
             return
         disas_data = debugcore.disassemble(expression, offset)
         if not disas_data:
+            if '$pc' in expression:
+                print(f'Suppressed QMessageBox {tr.EXPRESSION_ACCESS_ERROR.format(expression}')
+                return False
             QMessageBox.information(app.focusWidget(), tr.ERROR, tr.EXPRESSION_ACCESS_ERROR.format(expression))
             return False
         program_counter = debugcore.examine_expression("$pc").address
